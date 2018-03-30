@@ -196,14 +196,14 @@ public class DetalleFragment extends Fragment implements View.OnTouchListener, M
 
     private void ponInfoLibro(int id, View vista) {
         final Libro libro = ((Aplicacion) getActivity().getApplication()).getListaLibros().get(id);
-        ((TextView) vista.findViewById(R.id.titulo)).setText(libro.titulo);
-        ((TextView) vista.findViewById(R.id.autor)).setText(libro.autor);
+        ((TextView) vista.findViewById(R.id.titulo)).setText(libro.getTitulo());
+        ((TextView) vista.findViewById(R.id.autor)).setText(libro.getAutor());
 
         final Aplicacion aplicacion = (Aplicacion) getActivity().getApplication();
         //((NetworkImageView) vista.findViewById(R.id.portada)).setImageUrl( libro.urlImagen,aplicacion.getLectorImagenes());
 
         RequestQueue colaPeticiones = Volley.newRequestQueue(aplicacion);
-        ((NetworkImageView) vista.findViewById(R.id.portada)).setImageUrl( libro.urlImagen, new ImageLoader(
+        ((NetworkImageView) vista.findViewById(R.id.portada)).setImageUrl(libro.getUrlImagen(), new ImageLoader(
                 colaPeticiones,
                 new ImageLoader.ImageCache() {
             private final LruCache<String, Bitmap> cache = new LruCache<>(10);
@@ -228,7 +228,7 @@ public class DetalleFragment extends Fragment implements View.OnTouchListener, M
         mediaPlayer = new MediaPlayer();
         mediaPlayer.setOnPreparedListener(this);
         mediaController = new MediaController(getActivity());
-        Uri audio = Uri.parse(libro.urlAudio);
+        Uri audio = Uri.parse(libro.getUrlAudio());
         try {
             mediaPlayer.setDataSource(getActivity(), audio);
             mediaPlayer.prepareAsync();
@@ -274,8 +274,8 @@ public class DetalleFragment extends Fragment implements View.OnTouchListener, M
        // remoteViews.setImageViewResource(R.id.imagen_notificacion, R.drawable.ic_book_white_24dp);
         remoteViews.setImageViewBitmap(R.id.imagen_notificacion, bitmap);
         remoteViews.setImageViewResource(R.id.accion_notificacion, R.drawable.ic_play_arrow_white_24dp);
-        remoteViews.setTextViewText(R.id.titulo_notificacion, libro.titulo);
-        remoteViews.setTextViewText(R.id.autor_notificacion, libro.autor);
+        remoteViews.setTextViewText(R.id.titulo_notificacion, libro.getTitulo());
+        remoteViews.setTextViewText(R.id.autor_notificacion, libro.getAutor());
 
         Intent intent = new Intent(aplicacion, MainActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(aplicacion, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);

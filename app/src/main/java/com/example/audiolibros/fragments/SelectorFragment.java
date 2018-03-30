@@ -82,8 +82,8 @@ public class SelectorFragment extends Fragment implements Animation.AnimationLis
                                 Libro libro = listaLibros.get(id);
                                 Intent i = new Intent(Intent.ACTION_SEND);
                                 i.setType("text/plain");
-                                i.putExtra(Intent.EXTRA_SUBJECT, libro.titulo);
-                                i.putExtra(Intent.EXTRA_TEXT, libro.urlAudio);
+                                i.putExtra(Intent.EXTRA_SUBJECT, libro.getTitulo());
+                                i.putExtra(Intent.EXTRA_TEXT, libro.getUrlAudio());
                                 startActivity(Intent.createChooser(i, "Compartir"));
                                 break;
                             case 1:

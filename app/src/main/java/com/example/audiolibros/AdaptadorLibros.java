@@ -53,29 +53,29 @@ public class AdaptadorLibros extends RecyclerView.Adapter<AdaptadorLibros.ViewHo
     @Override
     public void onBindViewHolder(final ViewHolder holder, int posicion) {
         final Libro libro = listaLibros.get(posicion);
-        holder.titulo.setText(libro.titulo);
+        holder.titulo.setText(libro.getTitulo());
         holder.itemView.setRotation(0);
 
         Aplicacion aplicacion = (Aplicacion) contexto.getApplicationContext();
-        aplicacion.getLectorImagenes().get(libro.urlImagen, new ImageLoader.ImageListener() {
+        Aplicacion.Companion.getLectorImagenes().get(libro.getUrlImagen(), new ImageLoader.ImageListener() {
             @Override
             public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
                 Bitmap bitmap = response.getBitmap();
                 if(bitmap !=null){
                     holder.portada.setImageBitmap(bitmap);
-                    if(libro.colorVibrate!=-1 && libro.colorMute!=-1) {
-                        holder.itemView.setBackgroundColor(libro.colorMute);
-                        holder.titulo.setBackgroundColor(libro.colorVibrate);
+                    if(libro.getColorVibrate() !=-1 && libro.getColorMute() !=-1) {
+                        holder.itemView.setBackgroundColor(libro.getColorMute());
+                        holder.titulo.setBackgroundColor(libro.getColorVibrate());
                         holder.portada.invalidate();
                     }
                     else{
                         Palette.from(bitmap).generate(new Palette.PaletteAsyncListener() {
                             @Override
                             public void onGenerated(@NonNull Palette palette) {
-                                libro.colorMute=palette.getLightMutedColor(0);
-                                libro.colorVibrate=palette.getLightVibrantColor(1);
-                                holder.itemView.setBackgroundColor(libro.colorMute);
-                                holder.titulo.setBackgroundColor(libro.colorVibrate);
+                                libro.setColorMute(palette.getLightMutedColor(0));
+                                libro.setColorVibrate(palette.getLightVibrantColor(1));
+                                holder.itemView.setBackgroundColor(libro.getColorMute());
+                                holder.titulo.setBackgroundColor(libro.getColorVibrate());
                             }
                         });
                     }
