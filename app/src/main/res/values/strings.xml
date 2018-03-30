@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Audiolibros</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="drawer_open">navigation drawer abierto</string>
+    <string name="drawer_close">navigation drawer cerrado</string>
+
+    <string name="title_activity_splash_screen">Audio Libros</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+
+</resources>
