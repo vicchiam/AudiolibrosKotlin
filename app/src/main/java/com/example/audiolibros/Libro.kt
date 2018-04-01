@@ -11,7 +11,7 @@ const val G_EPICO = "Poema épico"
 const val G_S_XIX = "Literatura siglo XIX"
 const val G_SUSPENSE = "Suspense"
 
-fun ejemploLibros(): List<Libro> {
+fun ejemploLibros(): MutableList<Libro> {
     val SERVIDOR = "http://mmoviles.upv.es/audiolibros/"
     val libros = ArrayList<Libro>()
     libros.add(Libro("Kappa", "Akutagawa", SERVIDOR + "kappa.jpg", SERVIDOR + "kappa.mp3", G_S_XIX, false, false))

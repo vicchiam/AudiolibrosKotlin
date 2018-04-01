@@ -23,6 +23,9 @@ import com.example.audiolibros.fragments.SelectorFragment
 
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
+import org.jetbrains.anko.alert
+import org.jetbrains.anko.appcompat.v7.Appcompat
+import org.jetbrains.anko.sdk25.coroutines.onClick
 import org.jetbrains.anko.startActivity
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -34,7 +37,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val toolbar = findViewById<View>(R.id.toolbar) as Toolbar
         setSupportActionBar(toolbar)
 
         val actionBar = supportActionBar
@@ -48,7 +50,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         nav_view.setNavigationItemSelectedListener(this)
 
-        fab.setOnClickListener { irUltimoVisitado() }
+        fab.onClick { irUltimoVisitado() }
 
         val idContenedor = if (findViewById<View>(R.id.contenedor_pequeno) != null) R.id.contenedor_pequeno else R.id.contenedor_izquierdo
         val primerFragment = SelectorFragment()
@@ -112,10 +114,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             abrePreferencias()
             return true
         } else if (id == R.id.menu_acerca) {
-            val builder = AlertDialog.Builder(this)
-            builder.setMessage("Mensaje de Acerca De")
-            builder.setPositiveButton(android.R.string.ok, null)
-            builder.create().show()
+            alert(Appcompat,"Mensaje de acerca De"){
+                positiveButton(android.R.string.ok){}
+            }.show()
             return true
         }
         return super.onOptionsItemSelected(item)

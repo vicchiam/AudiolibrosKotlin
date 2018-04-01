@@ -24,13 +24,13 @@ import com.example.audiolibros.ejemploLibros
 
 class Aplicacion : Application() {
 
-    lateinit var listaLibros: List<Libro>
+    lateinit var listaLibros: MutableList<Libro>
     lateinit var adaptador: AdaptadorLibrosFiltro
 
     private  var mediaPlayer: MediaPlayer? = null
 
     val isPlaying: Boolean
-        get() = if (mediaPlayer == null) false else requireNotNull(mediaPlayer).isPlaying
+        get() = mediaPlayer?.isPlaying ?: false;
 
     @SuppressLint("MissingSuperCall")
     override fun onCreate() {
@@ -38,7 +38,7 @@ class Aplicacion : Application() {
         lectorImagenes = ImageLoader(colaPeticiones, object : ImageLoader.ImageCache {
             private val cache = LruCache<String, Bitmap>(10)
 
-            override fun getBitmap(url: String): Bitmap {
+            override fun getBitmap(url: String): Bitmap? {
                 return cache.get(url)
             }
 
@@ -53,24 +53,23 @@ class Aplicacion : Application() {
 
     fun playPause() {
         mediaPlayer?.let({
-            if(requireNotNull(mediaPlayer).isPlaying){
+            if(it.isPlaying){
                 play()
             }
             else{
                 stop()
             }
-
         })
     }
 
     fun play() {
         mediaPlayer = MediaPlayer()
-        requireNotNull(mediaPlayer).setOnPreparedListener { mediaPlayer -> mediaPlayer.start() }
+        mediaPlayer?.setOnPreparedListener { mediaPlayer -> mediaPlayer.start() }
         val (_, _, _, urlAudio) = adaptador.getItem(obtenerUltimoLibro())
         val audio = Uri.parse(urlAudio)
         try {
-            requireNotNull(mediaPlayer).setDataSource(applicationContext, audio)
-            requireNotNull(mediaPlayer).prepareAsync()
+            mediaPlayer?.setDataSource(applicationContext, audio)
+            mediaPlayer?.prepareAsync()
         } catch (e: IOException) {
             Log.e("Audiolibros", "ERROR: No se puede reproducir " + audio, e)
         }
@@ -79,8 +78,8 @@ class Aplicacion : Application() {
 
     fun stop() {
         mediaPlayer?.let({
-            if(requireNotNull(mediaPlayer).isPlaying){
-                requireNotNull(mediaPlayer).stop()
+            if(it.isPlaying){
+                it.stop()
             }
         })
     }
@@ -94,6 +93,7 @@ class Aplicacion : Application() {
 
         var colaPeticiones: RequestQueue? = null
         var lectorImagenes: ImageLoader? = null
+
     }
 
 }
